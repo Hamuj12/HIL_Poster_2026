@@ -1,0 +1,168 @@
+\documentclass[landscape,archE,fontscale=0.285,margin=1.9cm,movebody=0cm]{baposter}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{tabularx}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{mathptmx}
+\usepackage[scaled=0.93]{helvet}
+
+\ifdefined\pdfsuppresswarningpagegroup
+  \pdfsuppresswarningpagegroup=1
+\fi
+
+\graphicspath{{figs/}}
+
+\definecolor{UTBurnt}{RGB}{191,87,0}
+\definecolor{UTDark}{RGB}{51,63,72}
+\definecolor{UTLight}{RGB}{248,246,242}
+\definecolor{UTLine}{RGB}{150,63,0}
+\definecolor{SoftGray}{RGB}{235,238,239}
+\definecolor{AccentBlue}{RGB}{0,95,134}
+
+\newcommand{\boxheaderfont}{\sffamily\bfseries\large}
+\newcommand{\postertextfont}{\fontsize{8.45}{9.9}\selectfont}
+\newcommand{\tightlist}{\setlength{\itemsep}{0.055em}\setlength{\parskip}{0pt}\setlength{\parsep}{0pt}}
+\newcommand{\airylist}{\setlength{\itemsep}{0.18em}\setlength{\parskip}{0pt}\setlength{\parsep}{0pt}}
+\newcommand{\figcap}[1]{\par\vspace{0.10em}{\footnotesize\itshape #1}\par}
+\newcommand{\centeredgraphic}[2][]{\par\noindent\makebox[\linewidth][c]{\includegraphics[#1]{#2}}\par}
+\newcommand{\kicker}[1]{{\sffamily\bfseries\color{UTBurnt}#1}}
+\newcommand{\subhead}[1]{\par\vspace{0.12em}{\sffamily\bfseries\color{UTBurnt}#1}\par\vspace{-0.10em}}
+\newcommand{\metricrow}[2]{#1 & \textbf{\color{UTBurnt}#2}\\}
+
+\setlength{\tabcolsep}{0.38em}
+\renewcommand{\arraystretch}{1.08}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.06em}
+\setlist[itemize]{leftmargin=0.92em,labelsep=0.34em,topsep=0.04em,itemsep=0.055em,parsep=0pt,partopsep=0pt}
+\emergencystretch=1.4em
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{poster}{
+  columns=3,
+  colspacing=0.95em,
+  headerheight=0.115\textheight,
+  background=plain,
+  bgColorOne=white,
+  bgColorTwo=white,
+  textborder=rounded,
+  borderColor=UTBurnt,
+  linewidth=1.15pt,
+  boxshade=plain,
+  boxColorOne=white,
+  boxColorTwo=white,
+  headershape=rounded,
+  headerborder=none,
+  headershade=plain,
+  headerColorOne=UTBurnt,
+  headerColorTwo=UTBurnt,
+  headerFontColor=white,
+  headerfont=\boxheaderfont,
+  textfont={\postertextfont},
+  boxpadding=0.50em,
+  boxheaderheight=2.05em,
+  eyecatcher=true
+}
+{\includegraphics[width=16.8em]{uta_logo.pdf}}
+{{\color{UTBurnt}\LARGE Unseen Model-Based Pose Estimation and Hardware-in-the-Loop Testing\\[-0.08em]
+for Uncooperative Spacecraft with Monocular Vision}}
+{{\large S. Anand Agrawal, Andrew D. Martin, Hamza Mujtaba, Will Lipscomb, Maruthi R. Akella}\\[-0.05em]
+{\normalsize Controls for Distributed and Uncertain Systems (CDUS), The University of Texas at Austin}}
+{\includegraphics[width=21.2em]{ASE_EM_CDUS.png}}
+
+\begin{posterbox}[name=abstract,column=0,row=0,height=0.160]{Abstract}
+Monocular relative pose estimation supports autonomous \textbf{Rendezvous, Proximity Operations, and Docking (RPOD)} and \textbf{On-Orbit Servicing, Assembly, and Manufacturing (OSAM)} for non-cooperative spacecraft. We demonstrate an unseen model-based recovery and tracking pipeline that uses a monocular \textbf{Red-Green-Blue (RGB)} image and target \textbf{Computer-Aided Design (CAD)} model rather than target-specific pose-training imagery. The system runs on a robotic \textbf{Hardware-in-the-Loop (HIL)} testbed with motion-capture-based truth correction and onboard compute.
+\end{posterbox}
+
+\begin{posterbox}[name=motivation,column=0,below=abstract,height=0.172]{Motivation and Problem Setup}
+\begin{itemize}\tightlist
+  \item Non-cooperative targets may not transmit relative state or provide fiducials; the chaser must infer pose onboard.
+  \item Target-specific pose networks require labeled or synthetic imagery and retraining for each known target.
+  \item This model-based pipeline assumes a target three-dimensional (3D) model and avoids target-specific pose-training images.
+  \item HIL testing exposes sim-to-lab appearance, compute limits, truth collection, and mockup fidelity.
+\end{itemize}
+\end{posterbox}
+
+\begin{posterbox}[name=platform,column=0,below=motivation,above=bottom]{Experimental Platform and Truth Data}
+\centeredgraphic[width=0.98\linewidth,height=0.342\colheight,keepaspectratio]{panel_platform.pdf}
+\figcap{Two holonomic robots emulate chaser-target motion; the lower view shows the onboard sensing and compute stack.}
+\subhead{Demonstration Stack}
+\begin{itemize}\tightlist
+  \item Camera: Basler Ace (acA4112-30uc); compute: NVIDIA Jetson Orin NX 16 GB.
+  \item Emulation uses Distance Unit (DU) ratio 1:20 and Time Unit (TU) ratio 10:1.
+  \item Robot Operating System 2 (ROS 2) nodes run the measurement model/filter and collect imagery plus Vicon data.
+\end{itemize}
+\subhead{Truth-Like Poses}
+\begin{itemize}\tightlist
+  \item Vicon motion capture supplies truth-like camera-target poses, but its frame definitions introduce offsets.
+  \item Open Source Computer Vision Library (OpenCV) calibration estimates camera-to-board correction terms.
+  \item Residual error can arise from calibration noise, Vicon coverage limits, and print/CAD mismatch.
+\end{itemize}
+\end{posterbox}
+
+\begin{posterbox}[name=method,column=1,row=0,height=0.445]{Method Overview}
+\centeredgraphic[width=0.99\linewidth,height=0.225\colheight,keepaspectratio]{fig_pipeline_y2_rpe.png}
+\figcap{The measurement model alternates between recovery and frame-to-frame tracking; feasibility and inlier checks determine publication or reacquisition.}
+\subhead{Inputs}
+\begin{itemize}\tightlist
+  \item Monocular RGB image, target CAD/mesh model, camera calibration, and filter prediction.
+\end{itemize}
+\subhead{Recovery Mode}
+\begin{itemize}\tightlist
+  \item Localize the target and initialize pose with model-based recovery.
+  \item Check detector support against the projected model and seed image-to-model correspondences.
+\end{itemize}
+\subhead{Tracking Mode}
+\begin{itemize}\tightlist
+  \item Propagate correspondences with optical flow.
+  \item Run \textbf{Perspective-n-Point (PnP)}, refine, monitor inliers, and fall back to recovery if tracking degrades.
+\end{itemize}
+\end{posterbox}
+
+\begin{posterbox}[name=qual,column=1,below=method,above=bottom]{Qualitative Results}
+\centeredgraphic[width=0.99\linewidth,height=0.345\colheight,keepaspectratio]{panel_qual_results.pdf}
+\subhead{What the Overlays Check}
+\begin{itemize}\tightlist
+  \item Green contours show measurement-model output; red contours show the filter state after the measurement update.
+  \item Visual agreement indicates that projected poses are plausible for these frames.
+  \item Differences between contours and error spikes are treated as diagnostics for timing, noise, and filter tuning.
+\end{itemize}
+\end{posterbox}
+
+\begin{posterbox}[name=quant,column=2,row=0,height=0.555]{Quantitative Results}
+\centeredgraphic[width=0.99\linewidth,height=0.435\colheight,keepaspectratio]{panel_quant_results.pdf}
+\subhead{Interpretation}
+\begin{itemize}\airylist
+  \item Error plots report attitude and translation error for a single demonstration run.
+  \item The table preserves the reported in-plane, depth, attitude, and measurement-frequency averages.
+  \item Additional tuning and parameter testing are needed to further validate consistency.
+\end{itemize}
+\end{posterbox}
+
+\begin{posterbox}[name=conclusion,column=2,below=quant,above=bottom]{Conclusions and Future Work}
+\subhead{Takeaways}
+\begin{itemize}\airylist
+  \item Demonstrated an unseen model-based monocular pose pipeline on robotic HIL hardware with onboard processing and filter integration.
+  \item Recovery plus tracking combines global reinitialization with optical-flow correspondence propagation and PnP/refinement.
+  \item The experiment directly exercises truth acquisition, sim-to-lab constraints, and edge-compute throughput.
+\end{itemize}
+\subhead{Next Steps}
+\begin{itemize}\airylist
+  \item Validate over many runs and targets.
+  \item Tune timing, data-rate synchronization, and filter covariance for smoother updates.
+  \item Improve rendering/refinement speed with template warping.
+  \item Test in another facility and transition modular ROS 2 nodes to other groups.
+\end{itemize}
+\vfill
+{\footnotesize\itshape\raggedright Scope: results are limited to this Year 2 HIL test article and trajectory; broader runs, targets, and facilities remain future validation. Supported by the United States Space Force (USSF) Space Strategic Technical Institute for In-Space Operations, FA9453-24-2-0004.\par}
+\end{posterbox}
+
+\end{poster}
+
+\end{document}
