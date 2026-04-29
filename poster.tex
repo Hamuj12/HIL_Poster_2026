@@ -70,22 +70,22 @@
   eyecatcher=true
 }
 {\includegraphics[width=16.8em]{uta_logo.pdf}}
-{{\color{UTBurnt}\LARGE Unseen Model-Based Pose Estimation and Hardware-in-the-Loop Testing\\[-0.08em]
-for Uncooperative Spacecraft with Monocular Vision}}
+{{\color{UTBurnt}\LARGE Hardware-in-the-loop Testing for Known Noncooperative Spacecraft Pose Estimation \\[-0.08em]
+with Monocular Vision}}
 {{\large S. Anand Agrawal, Andrew D. Martin, Hamza Mujtaba, Will Lipscomb, Maruthi R. Akella}\\[-0.05em]
 {\normalsize Controls for Distributed and Uncertain Systems (CDUS), The University of Texas at Austin}}
 {\includegraphics[width=21.2em]{ASE_EM_CDUS.png}}
 
 \begin{posterbox}[name=abstract,column=0,row=0,height=0.160]{Abstract}
-Monocular relative pose estimation supports autonomous \textbf{Rendezvous, Proximity Operations, and Docking (RPOD)} and \textbf{On-Orbit Servicing, Assembly, and Manufacturing (OSAM)} for non-cooperative spacecraft. We demonstrate an unseen model-based recovery and tracking pipeline that uses a monocular \textbf{Red-Green-Blue (RGB)} image and target \textbf{Computer-Aided Design (CAD)} model rather than target-specific pose-training imagery. The system runs on a robotic \textbf{Hardware-in-the-Loop (HIL)} testbed with motion-capture-based truth correction and onboard compute.
+Monocular relative pose estimation supports autonomous \textbf{Rendezvous, Proximity Operations, and Docking (RPOD)} and \textbf{On-Orbit Servicing, Assembly, and Manufacturing (OSAM)} missions. These operations may involve noncooperative target spacecraft that do not actively or passively communicate state information to the chaser spacecraft. We demonstrate an semi-unseen model-based pose estimation pipeline that takes as input an \textbf{Red-Green-Blue (RGB)} image of the target and its \textbf{Computer-Aided Design (CAD)} model, and the direct pose regression models are generic such that the direct pose regression components do not train on target specific imagery. The system is tested onboard a robotic \textbf{Hardware-in-the-Loop (HIL)} testbed with motion-capture-based truth.
 \end{posterbox}
 
 \begin{posterbox}[name=motivation,column=0,below=abstract,height=0.172]{Motivation and Problem Setup}
 \begin{itemize}\tightlist
-  \item Non-cooperative targets may not transmit relative state or provide fiducials; the chaser must infer pose onboard.
+  \item Non-cooperative targets may not transmit state information, thus, the chaser must infer pose onboard.
   \item Target-specific pose networks require labeled or synthetic imagery and retraining for each known target.
-  \item This model-based pipeline assumes a target three-dimensional (3D) model and avoids target-specific pose-training images.
-  \item HIL testing exposes sim-to-lab appearance, compute limits, truth collection, and mockup fidelity.
+  \item This model-based pipeline attempts to avoid target-specific pose-training for the direct pose regression components.
+  \item HIL testing subjects the pipeline to the sim2lab gap, an approximate mockup, and \textbf{Size, Weight, Power, and Cost(SW\textup{a}P-C} constraints.
 \end{itemize}
 \end{posterbox}
 
@@ -94,15 +94,16 @@ Monocular relative pose estimation supports autonomous \textbf{Rendezvous, Proxi
 \figcap{Two holonomic robots emulate chaser-target motion; the lower view shows the onboard sensing and compute stack.}
 \subhead{Demonstration Stack}
 \begin{itemize}\tightlist
-  \item Camera: Basler Ace (acA4112-30uc); compute: NVIDIA Jetson Orin NX 16 GB.
-  \item Emulation uses Distance Unit (DU) ratio 1:20 and Time Unit (TU) ratio 10:1.
-  \item Robot Operating System 2 (ROS 2) nodes run the measurement model/filter and collect imagery plus Vicon data.
+  \item Camera: Basler Ace (acA4112-30uc)
+  \item Compute: NVIDIA Jetson Orin NX 16 GB
+  \item Emulation uses Distance Unit (DU) ratio 1:20 and Time Unit (TU) ratio 10:1
+  \item Orchestrated with Robot Operating System 2 (ROS 2): nodes run the measurement model/filter, collect imagery, and raw Vicon data
 \end{itemize}
-\subhead{Truth-Like Poses}
-\begin{itemize}\tightlist
-  \item Vicon motion capture supplies truth-like camera-target poses, but its frame definitions introduce offsets.
-  \item Open Source Computer Vision Library (OpenCV) calibration estimates camera-to-board correction terms.
-  \item Residual error can arise from calibration noise, Vicon coverage limits, and print/CAD mismatch.
+\subhead{Truth Collection and Refinement for HIL Testing}
+\begin{itemize}\tightlist  
+  \item Vicon motion capture data is processed to compute the relative poses between the camera and the printed target. However, the truth camera and truth target frames are only approximated in Vicon so their offsets need to be calculated.
+  \item After Open Source Computer Vision Library (OpenCV) calibration, a nonlinear least squares optimization problem is solved to estimate offsets and recalculate the relative pose between the camera and target. 
+  \item Residual error can arise from calibration noise, Vicon coverage limits, and print/CAD mismatch. 
 \end{itemize}
 \end{posterbox}
 
@@ -117,6 +118,7 @@ Monocular relative pose estimation supports autonomous \textbf{Rendezvous, Proxi
 \begin{itemize}\tightlist
   \item Localize the target and initialize pose with model-based recovery.
   \item Check detector support against the projected model and seed image-to-model correspondences.
+  \item The first successful recovery mode pass initializes the filter.
 \end{itemize}
 \subhead{Tracking Mode}
 \begin{itemize}\tightlist
@@ -140,8 +142,8 @@ Monocular relative pose estimation supports autonomous \textbf{Rendezvous, Proxi
 \subhead{Interpretation}
 \begin{itemize}\airylist
   \item Error plots report attitude and translation error for a single demonstration run.
-  \item The table preserves the reported in-plane, depth, attitude, and measurement-frequency averages.
-  \item Additional tuning and parameter testing are needed to further validate consistency.
+  \item The table preserves the reported in-plane, depth, attitude, and measurement-frequency averages over a single trajectory.
+  \item Additional tuning and parametric testing are needed to further validate pipeline's performance.
 \end{itemize}
 \end{posterbox}
 
@@ -159,10 +161,15 @@ Monocular relative pose estimation supports autonomous \textbf{Rendezvous, Proxi
   \item Improve rendering/refinement speed with template warping.
   \item Test in another facility and transition modular ROS 2 nodes to other groups.
 \end{itemize}
-\vfill
-{\footnotesize\itshape\raggedright Scope: results are limited to this Year 2 HIL test article and trajectory; broader runs, targets, and facilities remain future validation. Supported by the United States Space Force (USSF) Space Strategic Technical Institute for In-Space Operations, FA9453-24-2-0004.\par}
+% \vfill
+% {\footnotesize\itshape\raggedright Scope: results are limited to this Year 2 HIL test article and trajectory; broader runs, targets, and facilities remain future validation. Supported by the United States Space Force (USSF) Space Strategic Technical Institute for In-Space Operations, FA9453-24-2-0004.\par}
 \end{posterbox}
 
+
+% @HAMZA
+% \begin{posterbox}[name=acknowledge,column=2,below=conclusion,above=bottom]{Acknowledgements: To Be Edited}
+% This material is based on research sponsored by Air Force Research Laboratory (AFRL) under agreement number FA9453-24-2-0004. The U.S. Government is authorized to reproduce and distribute reprints for Governmental purposes notwithstanding any copyright notation thereon.​
+% \end{posterbox}
 \end{poster}
 
 \end{document}
