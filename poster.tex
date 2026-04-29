@@ -25,7 +25,9 @@
 \definecolor{AccentBlue}{RGB}{0,95,134}
 
 \newcommand{\boxheaderfont}{\sffamily\bfseries\large}
-\newcommand{\postertextfont}{\fontsize{8.45}{9.9}\selectfont}
+\newcommand{\postertextfont}{\fontsize{7.85}{9.05}\selectfont}
+\newcommand{\compactpostertext}{\fontsize{7.25}{8.35}\selectfont}
+\newcommand{\acktextfont}{\fontsize{5.95}{6.75}\selectfont}
 \newcommand{\tightlist}{\setlength{\itemsep}{0.055em}\setlength{\parskip}{0pt}\setlength{\parsep}{0pt}}
 \newcommand{\airylist}{\setlength{\itemsep}{0.18em}\setlength{\parskip}{0pt}\setlength{\parsep}{0pt}}
 \newcommand{\figcap}[1]{\par\vspace{0.10em}{\footnotesize\itshape #1}\par}
@@ -69,28 +71,31 @@
   boxheaderheight=2.05em,
   eyecatcher=true
 }
-{\includegraphics[width=16.8em]{uta_logo.pdf}}
-{{\color{UTBurnt}\LARGE Hardware-in-the-loop Testing for Known Noncooperative Spacecraft Pose Estimation \\[-0.08em]
-with Monocular Vision}}
+{\includegraphics[width=16.2em]{uta_logo.pdf}}
+{%
+{\color{UTBurnt}\fontsize{17.2}{18.3}\selectfont\bfseries
+Hardware-in-the-Loop Testing for Known Noncooperative\\[-0.03em]
+Spacecraft Pose Estimation with Monocular Vision}
+}
 {{\large S. Anand Agrawal, Andrew D. Martin, Hamza Mujtaba, Will Lipscomb, Maruthi R. Akella}\\[-0.05em]
 {\normalsize Controls for Distributed and Uncertain Systems (CDUS), The University of Texas at Austin}}
-{\includegraphics[width=21.2em]{ASE_EM_CDUS.png}}
+{\includegraphics[width=18.0em]{ASE_EM_CDUS.png}}
 
-\begin{posterbox}[name=abstract,column=0,row=0,height=0.160]{Abstract}
-Monocular relative pose estimation supports autonomous \textbf{Rendezvous, Proximity Operations, and Docking (RPOD)} and \textbf{On-Orbit Servicing, Assembly, and Manufacturing (OSAM)} missions. These operations may involve noncooperative target spacecraft that do not actively or passively communicate state information to the chaser spacecraft. We demonstrate an semi-unseen model-based pose estimation pipeline that takes as input an \textbf{Red-Green-Blue (RGB)} image of the target and its \textbf{Computer-Aided Design (CAD)} model, and the direct pose regression models are generic such that the direct pose regression components do not train on target specific imagery. The system is tested onboard a robotic \textbf{Hardware-in-the-Loop (HIL)} testbed with motion-capture-based truth.
+\begin{posterbox}[name=abstract,column=0,row=0,height=0.185]{Abstract}
+Monocular relative pose estimation supports autonomous \textbf{Rendezvous, Proximity Operations, and Docking (RPOD)} and \textbf{On-Orbit Servicing, Assembly, and Manufacturing (OSAM)} missions. These operations may involve noncooperative target spacecraft that do not actively or passively communicate state information to the chaser spacecraft. We demonstrate a semi-unseen model-based pose estimation pipeline that takes as input an \textbf{Red-Green-Blue (RGB)} image of the target and its \textbf{Computer-Aided Design (CAD)} model, and the direct pose regression models are generic such that the direct pose regression components do not train on target specific imagery. The system is tested onboard a robotic \textbf{Hardware-in-the-Loop (HIL)} testbed with motion-capture-based truth.
 \end{posterbox}
 
-\begin{posterbox}[name=motivation,column=0,below=abstract,height=0.172]{Motivation and Problem Setup}
+\begin{posterbox}[name=motivation,column=0,below=abstract,height=0.165]{Motivation and Problem Setup}
 \begin{itemize}\tightlist
   \item Non-cooperative targets may not transmit state information, thus, the chaser must infer pose onboard.
   \item Target-specific pose networks require labeled or synthetic imagery and retraining for each known target.
   \item This model-based pipeline attempts to avoid target-specific pose-training for the direct pose regression components.
-  \item HIL testing subjects the pipeline to the sim2lab gap, an approximate mockup, and \textbf{Size, Weight, Power, and Cost(SW\textup{a}P-C} constraints.
+  \item HIL testing subjects the pipeline to the sim2lab gap, an approximate mockup, and \textbf{Size, Weight, Power, and Cost (SW\textup{a}P-C)} constraints.
 \end{itemize}
 \end{posterbox}
 
-\begin{posterbox}[name=platform,column=0,below=motivation,above=bottom]{Experimental Platform and Truth Data}
-\centeredgraphic[width=0.98\linewidth,height=0.342\colheight,keepaspectratio]{panel_platform.pdf}
+\begin{posterbox}[name=platform,column=0,below=motivation,above=bottom,textfont={\compactpostertext}]{Experimental Platform and Truth Data}
+\centeredgraphic[width=0.98\linewidth,height=0.35\colheight,keepaspectratio]{panel_platform.pdf}
 \figcap{Two holonomic robots emulate chaser-target motion; the lower view shows the onboard sensing and compute stack.}
 \subhead{Demonstration Stack}
 \begin{itemize}\tightlist
@@ -128,7 +133,7 @@ Monocular relative pose estimation supports autonomous \textbf{Rendezvous, Proxi
 \end{posterbox}
 
 \begin{posterbox}[name=qual,column=1,below=method,above=bottom]{Qualitative Results}
-\centeredgraphic[width=0.99\linewidth,height=0.345\colheight,keepaspectratio]{panel_qual_results.pdf}
+\centeredgraphic[width=0.99\linewidth,height=0.375\colheight,keepaspectratio]{panel_qual_results.pdf}
 \subhead{What the Overlays Check}
 \begin{itemize}\tightlist
   \item Green contours show measurement-model output; red contours show the filter state after the measurement update.
@@ -137,8 +142,8 @@ Monocular relative pose estimation supports autonomous \textbf{Rendezvous, Proxi
 \end{itemize}
 \end{posterbox}
 
-\begin{posterbox}[name=quant,column=2,row=0,height=0.555]{Quantitative Results}
-\centeredgraphic[width=0.99\linewidth,height=0.435\colheight,keepaspectratio]{panel_quant_results.pdf}
+\begin{posterbox}[name=quant,column=2,row=0,height=0.392]{Quantitative Results}
+\centeredgraphic[width=0.99\linewidth,height=0.255\colheight,keepaspectratio]{panel_quant_results.pdf}
 \subhead{Interpretation}
 \begin{itemize}\airylist
   \item Error plots report attitude and translation error for a single demonstration run.
@@ -147,29 +152,49 @@ Monocular relative pose estimation supports autonomous \textbf{Rendezvous, Proxi
 \end{itemize}
 \end{posterbox}
 
-\begin{posterbox}[name=conclusion,column=2,below=quant,above=bottom]{Conclusions and Future Work}
+\begin{posterbox}[name=tracking,column=2,below=quant,height=0.335]{Tracking Time Histories}
+\centeredgraphic[width=0.99\linewidth,height=0.255\colheight,keepaspectratio]{pose_rpy_timeseries.png}
+\figcap{Roll, pitch, and yaw histories compare truth, measurement, and filtered estimates for the representative HIL sequence.}
+\end{posterbox}
+
+\begin{posterbox}[
+  name=conclusion,
+  column=2,
+  below=tracking,
+  above=bottom,
+  textfont={\compactpostertext},
+  boxpadding=0.42em
+]{Conclusions and Future Work}
+
 \subhead{Takeaways}
-\begin{itemize}\airylist
+\begin{itemize}\tightlist
   \item Demonstrated an unseen model-based monocular pose pipeline on robotic HIL hardware with onboard processing and filter integration.
   \item Recovery plus tracking combines global reinitialization with optical-flow correspondence propagation and PnP/refinement.
   \item The experiment directly exercises truth acquisition, sim-to-lab constraints, and edge-compute throughput.
 \end{itemize}
+
 \subhead{Next Steps}
-\begin{itemize}\airylist
+\begin{itemize}\tightlist
   \item Validate over many runs and targets.
   \item Tune timing, data-rate synchronization, and filter covariance for smoother updates.
   \item Improve rendering/refinement speed with template warping.
   \item Test in another facility and transition modular ROS 2 nodes to other groups.
 \end{itemize}
-% \vfill
-% {\footnotesize\itshape\raggedright Scope: results are limited to this Year 2 HIL test article and trajectory; broader runs, targets, and facilities remain future validation. Supported by the United States Space Force (USSF) Space Strategic Technical Institute for In-Space Operations, FA9453-24-2-0004.\par}
+
+\vspace{0.35em}
+{\color{UTBurnt}\hrule height 0.4pt}
+\vspace{0.35em}
+
+{\acktextfont
+{\sffamily\bfseries\color{UTBurnt}Acknowledgements.}
+This material is based on research sponsored by Air Force Research Laboratory (AFRL)
+under agreement number FA9453-24-2-0004. The U.S. Government is authorized to
+reproduce and distribute reprints for Governmental purposes notwithstanding any
+copyright notation thereon.
+}
+
 \end{posterbox}
 
-
-% @HAMZA
-% \begin{posterbox}[name=acknowledge,column=2,below=conclusion,above=bottom]{Acknowledgements: To Be Edited}
-% This material is based on research sponsored by Air Force Research Laboratory (AFRL) under agreement number FA9453-24-2-0004. The U.S. Government is authorized to reproduce and distribute reprints for Governmental purposes notwithstanding any copyright notation thereon.​
-% \end{posterbox}
 \end{poster}
 
 \end{document}

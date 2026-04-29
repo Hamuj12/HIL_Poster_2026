@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1776723959 "poster.tex" "poster.pdf" "poster" 1776723960
+["pdflatex"] 1777504908 "poster.tex" "poster.pdf" "poster" 1777504909
   "/etc/texmf/web2c/texmf.cnf" 1776210930 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -163,9 +163,10 @@
   "figs//panel_platform.pdf" 1776723126 1675682 e957317de88f1a5e70e6ab28a56dc673 ""
   "figs//panel_qual_results.pdf" 1776723139 1712320 b0b9203010474af9d0a27393f3532d2b ""
   "figs//panel_quant_results.pdf" 1776723155 311528 8f558be6acfedec762ee9d151d2bc660 ""
+  "figs//pose_rpy_timeseries.png" 1777499685 211216 bd9b5985edb0ab1999c476a7d62ef6e2 ""
   "figs//uta_logo.pdf" 1776716770 27160 122928c83c0127258cf36412805b1fe5 ""
-  "poster.aux" 1776723960 74 9192655b64d70838d029c40666db8c46 "pdflatex"
-  "poster.tex" 1776723932 8452 00b499d9cbc78b355584712e197b770e ""
+  "poster.aux" 1777504909 74 9192655b64d70838d029c40666db8c46 "pdflatex"
+  "poster.tex" 1777504907 9785 90068e12bcebcb8ae2601a256638afc1 ""
   (generated)
   "poster.aux"
   "poster.log"
