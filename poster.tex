@@ -1,4 +1,5 @@
-\documentclass[landscape,archE,fontscale=0.285,margin=1.9cm,movebody=0cm]{baposter}
+% \documentclass[landscape,archE,fontscale=0.285,margin=1.9cm,movebody=0cm]{baposter}
+\documentclass[landscape,archE,paperwidth=36in,paperheight=24in,fontscale=0.4,margin=1.9cm,movebody=0cm]{baposter}
 
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
@@ -143,7 +144,7 @@ Monocular relative pose estimation supports autonomous \textbf{Rendezvous, Proxi
 \end{posterbox}
 
 \begin{posterbox}[name=quant,column=2,row=0,height=0.392]{Quantitative Results}
-\centeredgraphic[width=0.99\linewidth,height=0.255\colheight,keepaspectratio]{panel_quant_results.pdf}
+\centeredgraphic[width=0.99\linewidth,height=0.25\colheight,keepaspectratio]{panel_quant_results.pdf}
 \subhead{Interpretation}
 \begin{itemize}\airylist
   \item Error plots report attitude and translation error for a single demonstration run.
@@ -153,7 +154,7 @@ Monocular relative pose estimation supports autonomous \textbf{Rendezvous, Proxi
 \end{posterbox}
 
 \begin{posterbox}[name=tracking,column=2,below=quant,height=0.335]{Tracking Time Histories}
-\centeredgraphic[width=0.99\linewidth,height=0.255\colheight,keepaspectratio]{pose_rpy_timeseries.png}
+\centeredgraphic[width=0.99\linewidth,height=0.25\colheight,keepaspectratio]{pose_rpy_timeseries.png}
 \figcap{Roll, pitch, and yaw histories compare truth, measurement, and filtered estimates for the representative HIL sequence.}
 \end{posterbox}
 
@@ -191,9 +192,22 @@ This material is based on research sponsored by Air Force Research Laboratory (A
 under agreement number FA9453-24-2-0004. The U.S. Government is authorized to
 reproduce and distribute reprints for Governmental purposes notwithstanding any
 copyright notation thereon.
+
+The authors would also like to thank Pete Lealiiee Jr. and Edward D. Jung for their contributions to the hardware testing.
 }
 
 \end{posterbox}
+
+% Bottom-center distribution statement overlay
+\node[
+  anchor=south,
+  align=center,
+  text width=0.92\textwidth,
+  font=\fontsize{7.5}{8.3}\selectfont,
+  text=black
+] at ($(south west)!0.5!(south east) + (0,-1.2em)$) {%
+  \textbf{Approved for public release; distribution is unlimited. Public Affairs release approval \#AFRL20262499.}
+};
 
 \end{poster}
 
