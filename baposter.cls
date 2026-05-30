@@ -935,7 +935,7 @@
       \ifthenelse{\equal{\baposter@box@below}{notset} \and \equal{\baposter@box@aligned}{notset}}{%
       \path[shape=coordinate] (\boxstartx,\boxheight)                                                              coordinate(\baposter@box@name nw);%
       }{}%
-      \path[shape=coordinate] (\boxstartx+\boxwidth,0pt)                                                           coordinate(\baposter@box@name se);%
+      \path[shape=coordinate] (\boxstartx+\boxwidth,-0.5em)                                                           coordinate(\baposter@box@name se);%
       }{\ifthenelse{\not \equal{\baposter@box@bottomaligned}{notset}}{%
         \path[shape=coordinate] (\boxstartx+\boxwidth,0pt |- \baposter@box@bottomaligned se)                       coordinate(\baposter@box@name se);%
       }{{\ifthenelse{\not \equal{\baposter@box@above}{notset}}{%

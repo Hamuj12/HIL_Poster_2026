@@ -49,7 +49,7 @@
 
 \begin{poster}{
   columns=3,
-  colspacing=0.95em,
+  colspacing=0.45em,
   headerheight=0.115\textheight,
   background=plain,
   bgColorOne=white,
@@ -72,7 +72,7 @@
   boxheaderheight=2.05em,
   eyecatcher=true
 }
-{\includegraphics[width=16.2em]{uta_logo.pdf}}
+{\makebox[26.0em][l]{\includegraphics[width=16.2em]{uta_logo.pdf}}}
 {%
 {\color{UTBurnt}\fontsize{17.2}{18.3}\selectfont\bfseries
 Hardware-in-the-Loop Testing for Known Noncooperative\\[-0.03em]
@@ -80,24 +80,24 @@ Spacecraft Pose Estimation with Monocular Vision}
 }
 {{\large S. Anand Agrawal, Andrew D. Martin, Hamza Mujtaba, Will Lipscomb, Maruthi R. Akella}\\[-0.05em]
 {\normalsize Controls for Distributed and Uncertain Systems (CDUS), The University of Texas at Austin}}
-{\includegraphics[width=18.0em]{ASE_EM_CDUS.png}}
+{\makebox[26.0em][r]{\includegraphics[width=26.0em]{ASE_EM_CDUS.png}}}
 
-\begin{posterbox}[name=abstract,column=0,row=0,height=0.185]{Abstract}
-Monocular relative pose estimation supports autonomous \textbf{Rendezvous, Proximity Operations, and Docking (RPOD)} and \textbf{On-Orbit Servicing, Assembly, and Manufacturing (OSAM)} missions. These operations may involve noncooperative target spacecraft that do not actively or passively communicate state information to the chaser spacecraft. We demonstrate a semi-unseen model-based pose estimation pipeline that takes as input an \textbf{Red-Green-Blue (RGB)} image of the target and its \textbf{Computer-Aided Design (CAD)} model, and the direct pose regression models are generic such that the direct pose regression components do not train on target specific imagery. The system is tested onboard a robotic \textbf{Hardware-in-the-Loop (HIL)} testbed with motion-capture-based truth.
+\begin{posterbox}[name=abstract,column=0,row=0,height=0.175]{Abstract}
+Monocular relative pose estimation supports autonomous \textbf{Rendezvous, Proximity Operations, and Docking (RPOD)} and \textbf{On-Orbit Servicing, Assembly, and Manufacturing (OSAM)} missions. These operations may involve noncooperative client spacecraft that do not actively or passively communicate state information to the chaser spacecraft. We demonstrate a semi-unseen model-based pose estimation pipeline that takes as input an \textbf{Red-Green-Blue (RGB)} image of the target and its \textbf{Computer-Aided Design (CAD)} model, and the direct pose regression models are generic such that the direct pose regression components do not train on client specific imagery. The system is tested onboard a robotic \textbf{Hardware-in-the-Loop (HIL)} testbed with motion-capture-based truth.
 \end{posterbox}
 
 \begin{posterbox}[name=motivation,column=0,below=abstract,height=0.165]{Motivation and Problem Setup}
 \begin{itemize}\tightlist
-  \item Non-cooperative targets may not transmit state information, thus, the chaser must infer pose onboard.
-  \item Target-specific pose networks require labeled or synthetic imagery and retraining for each known target.
-  \item This model-based pipeline attempts to avoid target-specific pose-training for the direct pose regression components.
-  \item HIL testing subjects the pipeline to the sim2lab gap, an approximate mockup, and \textbf{Size, Weight, Power, and Cost (SW\textup{a}P-C)} constraints.
+  \item Non-cooperative clients may not transmit state information, thus, the chaser must infer pose onboard
+  \item Client-specific pose networks require labeled or synthetic imagery and retraining for each known target
+  \item This model-based pipeline attempts to avoid client-specific pose-training for the direct pose regression components
+  \item HIL testing subjects the pipeline to the sim2lab gap, an approximate mockup, and \textbf{Size, Weight, Power, and Cost (SW\textup{a}P-C)} constraints
 \end{itemize}
 \end{posterbox}
 
 \begin{posterbox}[name=platform,column=0,below=motivation,above=bottom,textfont={\compactpostertext}]{Experimental Platform and Truth Data}
-\centeredgraphic[width=0.98\linewidth,height=0.35\colheight,keepaspectratio]{panel_platform.pdf}
-\figcap{Two holonomic robots emulate chaser-target motion; the lower view shows the onboard sensing and compute stack.}
+\centeredgraphic[width=0.98\linewidth,height=0.375\colheight,keepaspectratio]{panel_platform.pdf}
+\figcap{Two holonomic robots emulate chaser-client motion; the lower view shows the onboard sensing and compute stack.}
 \subhead{Demonstration Stack}
 \begin{itemize}\tightlist
   \item Camera: Basler Ace (acA4112-30uc)
@@ -107,39 +107,40 @@ Monocular relative pose estimation supports autonomous \textbf{Rendezvous, Proxi
 \end{itemize}
 \subhead{Truth Collection and Refinement for HIL Testing}
 \begin{itemize}\tightlist  
-  \item Vicon motion capture data is processed to compute the relative poses between the camera and the printed target. However, the truth camera and truth target frames are only approximated in Vicon so their offsets need to be calculated.
-  \item After Open Source Computer Vision Library (OpenCV) calibration, a nonlinear least squares optimization problem is solved to estimate offsets and recalculate the relative pose between the camera and target. 
-  \item Residual error can arise from calibration noise, Vicon coverage limits, and print/CAD mismatch. 
+  \item Vicon motion capture data is processed to compute the relative poses between the camera and the printed client, however, the truth camera and truth client frames are only approximated in Vicon so their offsets need to be calculated
+  \item After Open Source Computer Vision Library (OpenCV) calibration, a nonlinear least squares optimization problem is solved to estimate offsets and recalculate the relative pose between the camera and target
+  \item Residual error can arise from calibration noise, Vicon coverage limits, and print/CAD mismatch
 \end{itemize}
 \end{posterbox}
 
-\begin{posterbox}[name=method,column=1,row=0,height=0.445]{Method Overview}
+\begin{posterbox}[name=method,column=1,row=0,height=0.430]{Method Overview}
 \centeredgraphic[width=0.99\linewidth,height=0.225\colheight,keepaspectratio]{fig_pipeline_y2_rpe.png}
 \figcap{The measurement model alternates between recovery and frame-to-frame tracking; feasibility and inlier checks determine publication or reacquisition.}
+\vspace{1em}
 \subhead{Inputs}
 \begin{itemize}\tightlist
-  \item Monocular RGB image, target CAD/mesh model, camera calibration, and filter prediction.
+  \item Monocular RGB image, target CAD/mesh model, camera calibration, and filter prediction
 \end{itemize}
 \subhead{Recovery Mode}
 \begin{itemize}\tightlist
-  \item Localize the target and initialize pose with model-based recovery.
-  \item Check detector support against the projected model and seed image-to-model correspondences.
-  \item The first successful recovery mode pass initializes the filter.
+  \item Localize the client and initialize pose with model-based recovery
+  \item Check detector support against the projected model and seed image-to-model correspondences
+  \item The first successful recovery mode pass initializes the filter
 \end{itemize}
 \subhead{Tracking Mode}
 \begin{itemize}\tightlist
-  \item Propagate correspondences with optical flow.
-  \item Run \textbf{Perspective-n-Point (PnP)}, refine, monitor inliers, and fall back to recovery if tracking degrades.
+  \item Propagate correspondences with optical flow
+  \item Run \textbf{Perspective-n-Point (PnP)}, refine, monitor inliers, and fall back to recovery if tracking degrades
 \end{itemize}
 \end{posterbox}
 
 \begin{posterbox}[name=qual,column=1,below=method,above=bottom]{Qualitative Results}
-\centeredgraphic[width=0.99\linewidth,height=0.375\colheight,keepaspectratio]{panel_qual_results.pdf}
+\centeredgraphic[width=0.99\linewidth,height=0.420\colheight,keepaspectratio]{panel_qual_results.pdf}
 \subhead{What the Overlays Check}
 \begin{itemize}\tightlist
-  \item Green contours show measurement-model output; red contours show the filter state after the measurement update.
-  \item Visual agreement indicates that projected poses are plausible for these frames.
-  \item Differences between contours and error spikes are treated as diagnostics for timing, noise, and filter tuning.
+  \item Green contours show measurement-model output; red contours show the filter state after the measurement update
+  \item Visual agreement indicates that projected poses are plausible for these frames
+  \item Differences between contours and error spikes are treated as diagnostics for timing, noise, and filter tuning
 \end{itemize}
 \end{posterbox}
 
@@ -147,9 +148,9 @@ Monocular relative pose estimation supports autonomous \textbf{Rendezvous, Proxi
 \centeredgraphic[width=0.99\linewidth,height=0.25\colheight,keepaspectratio]{panel_quant_results.pdf}
 \subhead{Interpretation}
 \begin{itemize}\airylist
-  \item Error plots report attitude and translation error for a single demonstration run.
-  \item The table preserves the reported in-plane, depth, attitude, and measurement-frequency averages over a single trajectory.
-  \item Additional tuning and parametric testing are needed to further validate pipeline's performance.
+  \item Error plots report attitude and translation error for a single demonstration run
+  \item The table preserves the reported in-plane, depth, attitude, and measurement-frequency averages over a single trajectory
+  \item Additional tuning and parametric testing are needed to further validate pipeline's performance
 \end{itemize}
 \end{posterbox}
 
@@ -169,17 +170,17 @@ Monocular relative pose estimation supports autonomous \textbf{Rendezvous, Proxi
 
 \subhead{Takeaways}
 \begin{itemize}\tightlist
-  \item Demonstrated an unseen model-based monocular pose pipeline on robotic HIL hardware with onboard processing and filter integration.
-  \item Recovery plus tracking combines global reinitialization with optical-flow correspondence propagation and PnP/refinement.
-  \item The experiment directly exercises truth acquisition, sim-to-lab constraints, and edge-compute throughput.
+  \item Demonstrated an unseen model-based monocular pose pipeline on robotic HIL hardware with onboard processing and filter integration
+  \item Recovery plus tracking combines global reinitialization with optical-flow correspondence propagation and PnP/refinement
+  \item The experiment directly exercises truth acquisition, sim-to-lab constraints, and edge-compute throughput
 \end{itemize}
 
 \subhead{Next Steps}
 \begin{itemize}\tightlist
-  \item Validate over many runs and targets.
-  \item Tune timing, data-rate synchronization, and filter covariance for smoother updates.
-  \item Improve rendering/refinement speed with template warping.
-  \item Test in another facility and transition modular ROS 2 nodes to other groups.
+  \item Validate over many runs and targets
+  \item Tune timing, data-rate synchronization, and filter covariance for smoother updates
+  \item Improve rendering/refinement speed with template warping
+  \item Test in another facility and transition modular ROS 2 nodes to other groups
 \end{itemize}
 
 \vspace{0.35em}
@@ -205,7 +206,7 @@ The authors would also like to thank Pete Lealiiee Jr. and Edward D. Jung for th
   text width=0.92\textwidth,
   font=\fontsize{7.5}{8.3}\selectfont,
   text=black
-] at ($(south west)!0.5!(south east) + (0,-1.2em)$) {%
+] at ($(south west)!0.5!(south east) + (0,-1.7em)$) {%
   \textbf{Approved for public release; distribution is unlimited. Public Affairs release approval \#AFRL20262499.}
 };
 
